@@ -5,6 +5,7 @@
  */
 package uam.pvoe.practica.formas;
 
+import Modelo.Servicio;
 import java.util.ArrayList;
 import uam.pvoe.practica.modelo.MedioTransporte;
 import uam.pvoe.practica.modelo.Opcion;
@@ -17,12 +18,15 @@ import javax.swing.*;
  */
 public class FrmVacaciones extends javax.swing.JFrame {
     private List<MedioTransporte> mediosTransporte;
+    private List<Servicio> listaServicios = new ArrayList<>();
+    private List<JCheckBox> listaChkServicios = new ArrayList<>();
     /**
      * Creates new form FrmVacaciones
      */
     public FrmVacaciones() {
         initComponents();
         llenarBotonesMedioTransporte();
+        llenarCheckBoxesServicios();
     }
     
     private void llenarBotonesMedioTransporte() {
@@ -38,6 +42,38 @@ public class FrmVacaciones extends javax.swing.JFrame {
         btnAutoRentado.setText(mediosTransporte.get(3).getNombre());
     }
     
+    private void llenarCheckBoxesServicios() {
+    Servicio s1 = new Servicio("SEG1", "Desayuno incluido");
+    Servicio s2 = new Servicio("SEG2", "Despertador personalizado");
+    Servicio s3 = new Servicio("SEG3", "Lavandería");
+    Servicio s4 = new Servicio("SEG4", "Guardería");
+    Servicio s5 = new Servicio("SEG5", "Caja fuerte");
+    Servicio s6 = new Servicio("SEG6", "Tour local");
+
+    chkDesayuno.putClientProperty("llave", s1);
+    chkDespertador.putClientProperty("llave", s2);
+    chkLavanderia.putClientProperty("llave", s3);
+    chkGuarderia.putClientProperty("llave", s4);
+    chkCajaFuerte.putClientProperty("llave", s5);
+    chkTour.putClientProperty("llave", s6);
+
+    chkDesayuno.setText(s1.getNombre());
+    chkDespertador.setText(s2.getNombre());
+    chkLavanderia.setText(s3.getNombre());
+    chkGuarderia.setText(s4.getNombre());
+    chkCajaFuerte.setText(s5.getNombre());
+    chkTour.setText(s6.getNombre());
+    
+    // Agregar todos los checkboxes a la lista
+    listaChkServicios.add(chkDesayuno);
+    listaChkServicios.add(chkDespertador);
+    listaChkServicios.add(chkLavanderia);
+    listaChkServicios.add(chkGuarderia);
+    listaChkServicios.add(chkCajaFuerte);
+    listaChkServicios.add(chkTour);
+
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -209,7 +245,24 @@ public class FrmVacaciones extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        listaServicios.clear(); // Limpiar por si ya se usó antes
 
+    for (JCheckBox chk : listaChkServicios) {
+        if (chk.isSelected()) {
+            Servicio s = (Servicio) chk.getClientProperty("llave");
+            listaServicios.add(s);
+        }
+    }
+
+    // Mostrar claves en consola
+    if (listaServicios.isEmpty()) {
+        System.out.println("No se seleccionó ningún servicio.");
+    } else {
+        System.out.println("Servicios seleccionados:");
+        for (Servicio s : listaServicios) {
+            System.out.println("- " + s.getClave());
+        }
+    }
     }                                            
 
     /**
